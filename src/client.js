@@ -7,16 +7,15 @@ class Client extends DiscordClient {
         super()
     }
 
-    connect() {
-        this.on('errors', e => console.log(e))
-        this.on('warn', e => console.log(e));
-        this.on('debug', e => console.log(e));
-        this.on('message', msg => {
-            if (msg.content === 'ping') {
-                msg.reply('Pong!');
-            }
-        })
+    status() {
+        this.on('errors', e => new Error(`${e}`))
+        this.on('warn', e => new Error(`WARN STATUS: ${e}\n`));
+        this.on('debug', e => console.log(`DEBUG STATUS: ${e}\n`));
+    }
 
+    connect() {
+        this.status()
+        this.on('message', async message => Plugins.run(message))
         this.login(Config.token)
     }
 }

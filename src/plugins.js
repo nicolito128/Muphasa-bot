@@ -5,21 +5,47 @@ class Plugins extends EventEmitter {
     constructor() {
         super()
 
-        this.Tools = Object.create(null)
+        /** @type {string[]} */
+        this.files = null
+        /** @type {object} */
+        this.commands = Object.create(null)
     }
 
-    load() {}
+    makeCommandParams(message) {
+        let by, args, cmd
 
-    loadTools() {
-        let files = fs.readdirSync(__dirname + '/tools')
-        // filter '.js' in files
-        files = files.map( file => file.split('.js').join(''))
+        if (message.content.startsWith(Config.prefix)) {
+            by = message.member.user
+	        args = message.content.slice(Config.prefix.length).trim().split(/ +/g)
+            cmd = args.shift().toLowerCase()
+            return {by, args, cmd}
+        }
 
-        files.forEach(tool => {
-            this.Tools[tool] = require(`./tools/${tool}.js`)
+        return null
+    }
+
+    loadPlugins(message) {
+        const files = fs.readdirSync(parsePath('src/plugins/'))
+        files.forEach(file => {
+            const plugin = require(`./plugins/${file}`)
+            this.loadPlugin(plugin, message)
         })
+    }
 
-        return this.Tools
+    loadPlugin(plugin, message) {
+        if (!plugin) return null
+        if (plugin.commands) Object.assign(this.commands, plugin.commands)
+    }
+
+    run(message) {
+        const params = this.makeCommandParams(message)
+
+        if (params === null) return ''
+        const {by, args, cmd} = params
+
+        this.loadPlugins(message)
+
+        if (this.commands[cmd]) return this.commands[cmd]({message, by, args, cmd})
     }
 }
 

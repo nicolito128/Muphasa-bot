@@ -16,11 +16,19 @@ try {
     if (err) throw new Error(`CONFIG CREATION` + err)
 }
 
+const Config = require('./../config/config.js')
 const Client = require('./client.js')
 
 // Gobals
-global.Tools = Plugins.loadTools()
+global.Tools = require('./tools/index.js')
+
 global.parsePath = path => PROJECT_ROOT + path
+
+global.Config = Config
+
+global.Plugins = Plugins
+
+global.Client = Client
 
 // Run bot
 Client.connect()
