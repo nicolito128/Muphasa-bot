@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { MessageEmbed } = require('discord.js')
 
 class Plugins {
     constructor() {
@@ -45,27 +44,6 @@ class Plugins {
         }
 
         return null
-    }
-
-    /********************************
-     *      Useful in Commands      *
-     *******************************/
-
-    /**
-     * @def Get a new instance to MessageEmbed
-    */
-    embed() {
-        return new MessageEmbed()
-    }
-
-    denied(self) {
-        const embed = this.embed()
-        embed
-            .setTitle('Acceso denegado')
-            .setColor(0xff0000)
-            .setDescription(`No tienes suficiente autoridad para usar este comando.`);
-        
-        return self.channel.send(embed)
     }
 }
 
