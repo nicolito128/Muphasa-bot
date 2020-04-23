@@ -19,7 +19,7 @@ class Plugins {
     }
 
     loadPlugins() {
-        const files = fs.readdirSync(parsePath('src/plugins/'))
+        const files = fs.readdirSync(Tools.parsePath('src/plugins/'))
         files.forEach(file => {
             const plugin = require(`./plugins/${file}`)
             this.loadPlugin(plugin)

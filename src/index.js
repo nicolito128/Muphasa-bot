@@ -1,12 +1,12 @@
 const fs = require('fs')
-const PROJECT_ROOT = __dirname + '/../'
+const Tools = require('./tools/index.js')
 
 // Create config.js
 try {
-    const existsConfig =  fs.existsSync(PROJECT_ROOT + '/config/config.js')
+    const existsConfig =  fs.existsSync(Tools.parsePath('config/config.js'))
 
     if (!existsConfig) {
-        fs.copyFileSync(PROJECT_ROOT + 'config/config-example.js', PROJECT_ROOT + '/config/config.js')
+        fs.copyFileSync(Tools.parsePath('config/config-example.js'), Tools.parsePath('config/config.js'))
         console.log('Config.js created successfully!')
     } else {
         console.log('Config.js already exists.')
@@ -20,9 +20,7 @@ const Client = require('./client.js')
 const Plugins = require('./plugins.js')
 
 // Gobals
-global.Tools = require('./tools/index.js')
-
-global.parsePath = path => PROJECT_ROOT + path
+global.Tools = Tools
 
 global.Config = Config
 
