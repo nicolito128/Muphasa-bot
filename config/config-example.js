@@ -15,4 +15,4 @@ exports.prefix = ""
 exports.ownerId = ""
 
 // Bot name
-exports.name = ''
+exports.name = 'Muphasa'
