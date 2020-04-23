@@ -1,5 +1,4 @@
 const fs = require('fs')
-const Plugins = require('./plugins.js')
 const PROJECT_ROOT = __dirname + '/../'
 
 // Create config.js
@@ -18,6 +17,7 @@ try {
 
 const Config = require('./../config/config.js')
 const Client = require('./client.js')
+const Plugins = require('./plugins.js')
 
 // Gobals
 global.Tools = require('./tools/index.js')
