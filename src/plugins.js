@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { MessageEmbed } = require('discord.js')
 
 class Plugins {
     constructor() {
@@ -12,10 +13,10 @@ class Plugins {
         const params = this.makeCommandParams(message)
 
         if (params === null) return null
-        const {by, args, cmd} = params
+        const {user, args, cmd} = params
 
         if (!this.commands[cmd]) return null
-        return this.commands[cmd]({message, by, args, cmd})
+        return this.commands[cmd].call(message, {message, user, args, cmd})
     }
 
     loadPlugins() {
@@ -34,27 +35,37 @@ class Plugins {
     }
 
     makeCommandParams(message) {
-        let by, args, cmd
+        let user, args, cmd
 
         if (message.content.startsWith(Config.prefix)) {
-            by = message.member.user
-	        args = message.content.slice(Config.prefix.length).trim().split(/ +/g)
+            user = message.member.user
+	        args = message.content.slice(Config.prefix.length).trim().split(' ')
             cmd = args.shift().toLowerCase()
-            return {by, args, cmd}
+            return {user, args, cmd}
         }
 
         return null
     }
 
     /********************************
-     *      Useful in Plugins       *
+     *      Useful in Commands      *
      *******************************/
 
     /**
      * @def Get a new instance to MessageEmbed
     */
-    get embed() {
+    embed() {
         return new MessageEmbed()
+    }
+
+    denied(self) {
+        const embed = this.embed()
+        embed
+            .setTitle('Acceso denegado')
+            .setColor(0xff0000)
+            .setDescription(`No tienes suficiente autoridad para usar este comando.`);
+        
+        return self.channel.send(embed)
     }
 }
 
