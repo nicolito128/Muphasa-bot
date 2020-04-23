@@ -8,17 +8,14 @@ class Plugins {
         this.commands = Object.create(null)
     }
 
-    makeCommandParams(message) {
-        let by, args, cmd
+    run(message) {
+        const params = this.makeCommandParams(message)
 
-        if (message.content.startsWith(Config.prefix)) {
-            by = message.member.user
-	        args = message.content.slice(Config.prefix.length).trim().split(/ +/g)
-            cmd = args.shift().toLowerCase()
-            return {by, args, cmd}
-        }
+        if (params === null) return null
+        const {by, args, cmd} = params
 
-        return null
+        if (!this.commands[cmd]) return null
+        return this.commands[cmd]({message, by, args, cmd})
     }
 
     loadPlugins() {
@@ -36,15 +33,22 @@ class Plugins {
         if (plugin.commands) Object.assign(this.commands, plugin.commands)
     }
 
-    run(message) {
-        const params = this.makeCommandParams(message)
+    makeCommandParams(message) {
+        let by, args, cmd
 
-        if (params === null) return null
-        const {by, args, cmd} = params
+        if (message.content.startsWith(Config.prefix)) {
+            by = message.member.user
+	        args = message.content.slice(Config.prefix.length).trim().split(/ +/g)
+            cmd = args.shift().toLowerCase()
+            return {by, args, cmd}
+        }
 
-        if (!this.commands[cmd]) return null
-        return this.commands[cmd]({message, by, args, cmd})
+        return null
     }
+
+    /********************************
+     *      Useful in Plugins       *
+     *******************************/
 
     /**
      * @def Get a new instance to MessageEmbed

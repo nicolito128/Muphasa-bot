@@ -8,9 +8,11 @@
 // Token is required to connect to client
 exports.token = ""
 
-// Prefix is ​​the character that the bot uses to identify the commands
+// Prefix is ​​the character that the bot uses to identify commands
 exports.prefix = ""
 
+// Bot owner
 exports.ownerId = ""
 
+// Bot name
 exports.name = ''
