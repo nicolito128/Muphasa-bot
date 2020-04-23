@@ -6,11 +6,12 @@ const Plugins = require('./plugins.js')
 class Client extends DiscordClient {
     constructor() {
         super()
+        this.activity = `Prefix: ${Config.prefix}`
     }
 
     status() {
         this.on('ready', () => {
-            this.user.setActivity(`Prefix: ${Config.prefix}`)
+            this.user.setActivity(this.activity)
         })
     }
 
