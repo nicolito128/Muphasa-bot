@@ -47,30 +47,7 @@ class Plugins {
     }
 
     /**
-     * @def Destroy the cache and load the plugins again
-     */
-    destroy() {
-        const cache = this.cache()
-        cache.forEach(data => {
-            const event = data.next()
-            if (!event.done) delete this.commands[event.value]
-        })
-
-        this.loadPlugins()
-    }
-
-    /**
-     * @def Generator: plugins
-     */
-    *cache() {
-        const commands = this.commands.keys()
-        commands.forEach(command => {
-            yield command
-        })
-    }
-
-    /**
-     * @def Instance a new MessageEmbed
+     * @def Get a new instance to MessageEmbed
     */
     get embed() {
         return new MessageEmbed()
