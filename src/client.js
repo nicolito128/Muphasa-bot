@@ -9,13 +9,20 @@ class Client extends DiscordClient {
     }
 
     status() {
-        this.on('errors', e => new Error(`${e}`))
+        this.on('ready', () => {
+            this.user.setActivity(`Prefix: ${Config.prefix}`)
+        })
+    }
+
+    logs() {
+        this.on('errors', e => new Error(`${e} \n`))
         this.on('warn', e => new Error(`WARN STATUS: ${e}\n`));
         this.on('debug', e => console.log(`DEBUG STATUS: ${e}\n`));
     }
 
     connect() {
         this.status()
+        this.logs()
 
         // Plugins
         Plugins.loadPlugins()
