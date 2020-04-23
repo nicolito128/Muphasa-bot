@@ -1,10 +1,7 @@
-const EventEmitter = require('events')
 const fs = require('fs')
 
-class Plugins extends EventEmitter {
+class Plugins {
     constructor() {
-        super()
-
         /** @type {string[]} */
         this.files = null
         /** @type {object} */
@@ -24,15 +21,17 @@ class Plugins extends EventEmitter {
         return null
     }
 
-    loadPlugins(message) {
+    loadPlugins() {
         const files = fs.readdirSync(parsePath('src/plugins/'))
         files.forEach(file => {
             const plugin = require(`./plugins/${file}`)
-            this.loadPlugin(plugin, message)
+            this.loadPlugin(plugin)
         })
+
+        console.log(`Plugins loaded successfully!`)
     }
 
-    loadPlugin(plugin, message) {
+    loadPlugin(plugin) {
         if (!plugin) return null
         if (plugin.commands) Object.assign(this.commands, plugin.commands)
     }
@@ -40,12 +39,41 @@ class Plugins extends EventEmitter {
     run(message) {
         const params = this.makeCommandParams(message)
 
-        if (params === null) return ''
+        if (params === null) return null
         const {by, args, cmd} = params
 
-        this.loadPlugins(message)
+        if (!this.commands[cmd]) return null
+        return this.commands[cmd]({message, by, args, cmd})
+    }
 
-        if (this.commands[cmd]) return this.commands[cmd]({message, by, args, cmd})
+    /**
+     * @def Destroy the cache and load the plugins again
+     */
+    destroy() {
+        const cache = this.cache()
+        cache.forEach(data => {
+            const event = data.next()
+            if (!event.done) delete this.commands[event.value]
+        })
+
+        this.loadPlugins()
+    }
+
+    /**
+     * @def Generator: plugins
+     */
+    *cache() {
+        const commands = this.commands.keys()
+        commands.forEach(command => {
+            yield command
+        })
+    }
+
+    /**
+     * @def Instance a new MessageEmbed
+    */
+    get embed() {
+        return new MessageEmbed()
     }
 }
 
