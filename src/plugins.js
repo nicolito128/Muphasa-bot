@@ -21,8 +21,10 @@ class Plugins {
     loadPlugins() {
         const files = fs.readdirSync(Tools.parsePath('src/plugins/'))
         files.forEach(file => {
-            const plugin = require(`./plugins/${file}`)
-            this.loadPlugin(plugin)
+            if (file.includes('.js')) {
+                const plugin = require(`./plugins/${file}`)
+                this.loadPlugin(plugin)
+            }
         })
 
         console.log(`Plugins loaded successfully!`)
