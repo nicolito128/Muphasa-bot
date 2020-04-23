@@ -1,4 +1,5 @@
-const DiscordClient = require('discord.js').Client;
+// Discord
+const DiscordClient = require('discord.js').Client
 const Config = require('./../config/config.js');
 const Plugins = require('./plugins.js')
 
@@ -15,7 +16,12 @@ class Client extends DiscordClient {
 
     connect() {
         this.status()
+
+        // Plugins
+        Plugins.loadPlugins()
         this.on('message', async message => Plugins.run(message))
+
+        // Connection to discord
         this.login(Config.token)
     }
 }
