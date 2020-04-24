@@ -52,7 +52,7 @@ module.exports.commands = {
         if (!code) return this.channel.send('Ingresa código que poder evaluar.')
 
         try {
-            this.channel.send(eval(code), {code: 'x1'})
+            this.channel.send(eval(code), {code: 'javascript'})
         } catch(err) {
             this.channel.send(`ERROR!\n${err}`, {code: 'javascript'})
         }
