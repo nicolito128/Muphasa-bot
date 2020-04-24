@@ -12,9 +12,13 @@ module.exports.commands = {
         this.channel.send(
             Tools.Embed.notify(
                 '',
-                '`' + Config.prefix + target + '` ' +  helps[target]
+                `\`${Config.prefix}${target} ${(helps[target].usage) ? helps[target].usage : ''}\` ${helps[target].info}`
             )
         )
+    },
+
+    say({message, user, args, cmd}) {
+        return this.channel.send(args.join(' '))        
     },
 
     github({message, user, args, cmd}) {
@@ -34,12 +38,13 @@ module.exports.commands = {
             args[0] = this.mentions.users.first()
         }
 
+        if (typeof args[0] !== 'object') return this.channel.send('No especificaste un usuario valido.')
+
         const targetUser = args[0]
         const id = targetUser.id
         const avatarId = targetUser.avatar
         const avatar = `https://cdn.discordapp.com/avatars/${id}/${avatarId}.png?size=1024`
 
-        if (!targetUser) return this.channel.send('No puedo encontrar al usuario que especificaste...')
         this.channel.send(
             Tools.Embed.notify(`${targetUser.username}#${targetUser.discriminator}'s avatar`, '').setImage(avatar)
         )
@@ -60,7 +65,8 @@ module.exports.commands = {
 }
 
 module.exports.help = {
-    github: 'Muestra el enlace al código fuente del BOT y datos sobre el desarrollo.',
-    eval: 'Evalua código JavaScript y luego muestra el resultado.',
-    avatar: 'Muestra en grande tu avatar o el de otro usuario que menciones.'
+    github: {info: 'Muestra el enlace al código fuente del BOT y datos sobre el desarrollo.'},
+    eval: {usage: 'code', info: 'Evalua código JavaScript y luego muestra el resultado.'},
+    avatar: {usage: 'mention[optional]',info: 'Muestra en grande tu avatar o el de otro usuario que menciones.'},
+    say: {usage: 'message', info: 'Obliga al BOT a enviar un mensaje en el canal actual.'}
 }

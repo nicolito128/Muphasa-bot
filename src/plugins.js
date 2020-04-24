@@ -49,9 +49,9 @@ class Plugins {
             const helpKeys = Object.keys(plugin.help)
             helpKeys.forEach(cmd => {
                 // Check if the help is a string or an array
-                if (typeof plugin.help[cmd] !== 'string')  {
+                if (typeof plugin.help[cmd].info !== 'string')  {
                     // If this is false: remove the no-helper
-                    if (!Array.isArray(plugin.help[cmd])) delete plugin.help[cmd]
+                    if (!Array.isArray(plugin.help[cmd].info)) delete plugin.help[cmd]
                 }
             })
         }
