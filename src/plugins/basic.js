@@ -12,7 +12,7 @@ module.exports.commands = {
         this.channel.send(
             Tools.Embed.notify(
                 '',
-                `\`${Config.prefix}${target} ${(helps[target].usage) ? helps[target].usage : ''}\` ${helps[target].info}`
+                `\`${Config.prefix}${target}${(helps[target].usage) ? ' < ' + helps[target].usage + ' > ' : ''}\` ${helps[target].info}`
             )
         )
     },
