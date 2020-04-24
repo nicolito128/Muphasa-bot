@@ -2,10 +2,10 @@ const fs = require('fs')
 
 class Plugins {
     constructor() {
-        /** @type {string[]} */
-        this.files = null
         /** @type {object} */
         this.commands = Object.create(null)
+        /** @type {object} */
+        this.help = Object.create(null)
     }
 
     run(message) {
@@ -23,7 +23,7 @@ class Plugins {
         files.forEach(file => {
             if (file.includes('.js')) {
                 const plugin = require(`./plugins/${file}`)
-                this.loadPlugin(plugin)
+                this.loadPlugin(this.filterPlugin(plugin))
             }
         })
 
@@ -32,7 +32,31 @@ class Plugins {
 
     loadPlugin(plugin) {
         if (!plugin) return null
-        if (plugin.commands) Object.assign(this.commands, plugin.commands)
+
+        Object.assign(this.commands, plugin.commands)
+        if (plugin.help) Object.assign(this.help, plugin.help)
+    }
+
+    filterPlugin(plugin) {
+        if (!plugin.commands || plugin.commands === {}) return null
+
+        const commandsKeys = Object.keys(plugin.commands)
+        commandsKeys.forEach(cmd => {
+            if (typeof plugin.commands[cmd] !== 'function') delete plugin.commands[cmd]
+        })
+
+        if (plugin.help) {
+            const helpKeys = Object.keys(plugin.help)
+            helpKeys.forEach(cmd => {
+                // Check if the help is a string or an array
+                if (typeof plugin.help[cmd] !== 'string')  {
+                    // If this is false: remove the no-helper
+                    if (!Array.isArray(plugin.help[cmd])) delete plugin.help[cmd]
+                }
+            })
+        }
+
+        return plugin
     }
 
     makeCommandParams(message) {
@@ -46,6 +70,10 @@ class Plugins {
         }
 
         return null
+    }
+
+    getHelp() {
+        return this.help
     }
 }
 
