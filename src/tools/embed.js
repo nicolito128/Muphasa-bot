@@ -9,13 +9,18 @@ class Embed extends MessageEmbed {
         return new Embed(options)
     }
 
-    denied(self) {
-        return self.channel.send(
-            this.new()
-                .setTitle('Acceso denegado')
-                .setColor(0xff0000)
-                .setDescription(`No tienes suficiente autoridad para usar este comando.`)
-        )
+    denied() {
+        return this.new()
+            .setTitle('Acceso denegado')
+            .setColor([213, 41, 32])
+            .setDescription(`No tienes suficiente autoridad para usar este comando.`)
+    }
+
+    notify(title, desc, color = [57, 140, 232]) {
+        return this.new()
+            .setTitle(title)
+            .setColor(color)
+            .setDescription(desc)
     }
 }
 
