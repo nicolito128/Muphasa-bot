@@ -7,7 +7,6 @@ const PROJECT_ROOT = __dirname + '/../../'
 // requires
 const ID = require('./id.js')
 const Embed = require('./embed.js')
-const Game = require('./game.js')
 
 // functions
 const parsePath = path => PROJECT_ROOT + path
