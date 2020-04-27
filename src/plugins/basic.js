@@ -41,12 +41,20 @@ module.exports.commands = {
         if (typeof args[0] !== 'object') return this.channel.send('No especificaste un usuario valido.')
 
         const targetUser = args[0]
-        const id = targetUser.id
-        const avatarId = targetUser.avatar
-        const avatar = `https://cdn.discordapp.com/avatars/${id}/${avatarId}.png?size=1024`
+        let avatar = targetUser.displayAvatarURL()
+
+        if (targetUser.avatar.startsWith('a_')) {
+            avatar = avatar.replace('.webp', '.gif')
+        } else {
+            avatar = avatar.replace('.webp', '.png')
+        }
 
         this.channel.send(
-            Tools.Embed.notify(`${targetUser.username}#${targetUser.discriminator}'s avatar`, '').setImage(avatar)
+            Tools.Embed.notify(
+                `${targetUser.username}#${targetUser.discriminator}'s avatar`,
+                [`[Buscar en Google](https://www.google.com/searchbyimage?image_url=${avatar})`]
+                )
+                .setImage(avatar + '?size=1024')
         )
     },
 
@@ -61,6 +69,28 @@ module.exports.commands = {
         } catch(err) {
             this.channel.send(`ERROR!\n${err}`, {code: 'javascript'})
         }
+    },
+
+    pick({message, user, args, cmd}) {
+        args = args.join(' ').split(',')
+        if (args.length <= 1) return this.channel.send('Intenta ingresar más elementos para seleccionar.')
+        const len = args.length
+        const randomArgument = args[Math.round(Math.random() * (len - 0) + 0)]
+        this.channel.send(
+            Tools.Embed.notify('Random pick', `\`${randomArgument}\``)
+        )
+    },
+
+    rand({message, user, args, cmd}) {
+        if (isNaN(args[0])) return this.channel.send('Este comando sólo admite un número como parametro.')
+
+        const num = parseInt(args[0])
+        if (num > 100000000000000000000000000000) return this.channel.send('No voy a calcular eso, lol')
+
+        const randomNumber = Math.round(Math.random() * (num - 0) + 0)
+        this.channel.send(
+            Tools.Embed.notify('Random num', `\`${randomNumber}\``)
+        )
     }
 }
 
@@ -68,5 +98,7 @@ module.exports.help = {
     github: {info: 'Muestra el enlace al código fuente del BOT y datos sobre el desarrollo.'},
     eval: {usage: 'code', info: 'Evalua código JavaScript y luego muestra el resultado.'},
     avatar: {usage: 'mention[optional]',info: 'Muestra en grande tu avatar o el de otro usuario que menciones.'},
-    say: {usage: 'message', info: 'Obliga al BOT a enviar un mensaje en el canal actual.'}
+    say: {usage: 'message', info: 'Obliga al BOT a enviar un mensaje en el canal actual.'},
+    pick: {usage: '[element 1, element 2, element 3...]', info: 'Selecciona un elemento aleatorio entre los proporcionados.'},
+    rand: {usage: 'number', info: 'Obten un número aleatorio entre 0 y el valor proporcionado.'}
 }
