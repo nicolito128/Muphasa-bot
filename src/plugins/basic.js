@@ -1,5 +1,22 @@
 const github = 'https://github.com/nicolito128/Muphasa-bot'
 
+const getHexValue = n => {
+    if (isNaN(n)) return null
+
+    const hex = Number(n).toString(16)
+    if (hex.length < 2) return `0${hex}`
+
+    return hex
+}
+
+const rgbToHex = (r, g, b) => {
+    const red = getHexValue(r)
+    const green = getHexValue(g)
+    const blue = getHexValue(b)
+
+    return red + green + blue
+}
+
 module.exports.commands = {
     help({message, user, args, cmd}) {
         const helps = Plugins.getHelp()
@@ -85,11 +102,28 @@ module.exports.commands = {
         if (isNaN(args[0])) return this.channel.send('Este comando sólo admite un número como parametro.')
 
         const num = parseInt(args[0])
-        if (num > 100000000000000000000000000000) return this.channel.send('No voy a calcular eso, lol')
+        if (num >= (100000 * 10000000)) return this.channel.send('No voy a calcular eso, lol')
 
         const randomNumber = Math.round(Math.random() * (num - 0) + 0)
         this.channel.send(
             Tools.Embed.notify('Random num', `\`${randomNumber}\``)
+        )
+    },
+
+    hex({message, user, args, cmd}) {
+        let hex, image = 'https://dummyimage.com/1000x1000/'
+
+        if (!args || !args[0]) return this.channel.send(`No ingresaste ningún color para mostrar. Para más información usa \`${Config.prefix}help hex\``)
+        if ( args[0] && args[1] && args[2] ) {
+            if ( isNaN(args[0] || isNaN(args[1]) || isNaN(args[2])) ) {
+                return this.channel.send('Si ingresas valores RGB todos los parametros deben ser números.')
+            }
+            hex = rgbToHex(args[0], args[1], args[2])
+        } else hex = args[0]
+
+        image += `${hex}/${hex}`
+        this.channel.send(
+            Tools.Embed.notify('', `\`#${hex}\``, 'transparent').setImage(image)
         )
     }
 }
@@ -99,6 +133,7 @@ module.exports.help = {
     eval: {usage: 'code', info: 'Evalua código JavaScript y luego muestra el resultado.'},
     avatar: {usage: 'mention[optional]',info: 'Muestra en grande tu avatar o el de otro usuario que menciones.'},
     say: {usage: 'message', info: 'Obliga al BOT a enviar un mensaje en el canal actual.'},
-    pick: {usage: '[element 1, element 2, element 3...]', info: 'Selecciona un elemento aleatorio entre los proporcionados.'},
-    rand: {usage: 'number', info: 'Obten un número aleatorio entre 0 y el valor proporcionado.'}
+    pick: {usage: 'element 1, element 2, element 3...', info: 'Selecciona un elemento aleatorio entre los proporcionados.'},
+    rand: {usage: 'number', info: 'Obten un número aleatorio entre 0 y el valor proporcionado.'},
+    hex: {usage: 'hex | red blue green', info: 'Muestra una imagen completamente del color hex/rgb ingresado.'}
 }
