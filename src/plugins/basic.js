@@ -3,7 +3,7 @@ const github = 'https://github.com/nicolito128/Muphasa-bot'
 const getHexValue = n => {
     if (isNaN(n)) return null
 
-    const hex = Number(n).toString(16)
+    const hex = parseInt(n, 16)
     if (hex.length < 2) return `0${hex}`
 
     return hex
@@ -16,6 +16,12 @@ const rgbToHex = (r, g, b) => {
 
     return red + green + blue
 }
+
+const hexToRgb = hex =>
+    hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+    .match(/.{2}/g)
+    .map(x => parseInt(x, 16))
 
 module.exports.commands = {
     help({message, user, args, cmd}) {
@@ -111,7 +117,7 @@ module.exports.commands = {
     },
 
     hex({message, user, args, cmd}) {
-        let hex, image = 'https://dummyimage.com/1000x1000/'
+        let hex, rgb, image = 'https://dummyimage.com/1000x1000/'
 
         if (!args || !args[0]) return this.channel.send(`No ingresaste ningún color para mostrar. Para más información usa \`${Config.prefix}help hex\``)
         if ( args[0] && args[1] && args[2] ) {
@@ -122,8 +128,13 @@ module.exports.commands = {
         } else hex = args[0]
 
         image += `${hex}/${hex}`
+        rgb = hexToRgb(hex)
+
         this.channel.send(
-            Tools.Embed.notify('', `\`#${hex}\``, 'transparent').setImage(image)
+            Tools.Embed.notify(
+                '',
+                [`\`HEX: #${hex}\``, `\`RGB: ${rgb.join(' ')}\``],
+                'transparent').setImage(image)
         )
     }
 }
