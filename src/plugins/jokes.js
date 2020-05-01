@@ -17,7 +17,7 @@ module.exports.commands = {
     },
 
     addjoke({message, user, args, cmd}) {
-        if (!this.member.hasPermission('ADD_REACTIONS')) return this.channel.send(Embed.denied())
+        if (!this.member.hasPermission('MENTION_EVERYONE')) return this.channel.send(Embed.denied())
 
         const joke = args.join(' ')
         if (joke.length < 16) return this.channel.send(`La broma no puede tener una longitud menor a 16 carácteres.`)
@@ -35,7 +35,7 @@ module.exports.commands = {
     },
 
     deljoke({message, user, args, cmd}) {
-        if (!this.member.hasPermission('ADD_REACTIONS')) return this.channel.send(Embed.denied())
+        if (!this.member.hasPermission('MENTION_EVERYONE')) return this.channel.send(Embed.denied())
         if (args.length > 1 || args.length < 1) return this.channel.send(`¡Comando invalido! Uso: \`${Config.prefix}deljoke < id >\`. Puedes encontrar el Id de una joke con \`${Config.prefix}jokelist\``)
         if (isNaN(args[0])) return this.channel.send(`La 'id' ingresada debe ser un número válido.`)
 
