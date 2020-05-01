@@ -22,8 +22,11 @@ class Database {
         const dbDir = __dirname + `/../../db/`
         if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir)
 
-        const existsDb = fs.existsSync(this.path)
-        if (!existsDb) this.write()
+        if (!fs.existsSync(this.path)) {
+            fs.writeFileSync(this.path, JSON.stringify({}))
+        }
+
+        this.data = JSON.parse(fs.readFileSync(this.path))
     }
 
     /**
@@ -123,6 +126,15 @@ class Database {
         if (!key) return null
         if (!this.data[key]) return false
         return true
+    }
+
+    /**
+     * 
+     * @param {function} callback 
+     */
+    call(callback) {
+        if (!callback) return null
+        return callback.call(this)
     }
 
     clear() {
