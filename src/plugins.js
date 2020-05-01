@@ -20,7 +20,7 @@ class Plugins {
     }
 
     loadPlugins() {
-        const files = fs.readdirSync(Tools.parsePath('src/plugins/'))
+        const files = fs.readdirSync('src/plugins/')
         files.forEach(file => {
             if (file.includes('.js')) {
                 const plugin = require(`./plugins/${file}`)
