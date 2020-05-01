@@ -133,7 +133,7 @@ class Database {
      * @param {function} callback 
      */
     call(callback) {
-        if (!callback) return null
+        if (!callback || type(callback) !== 'function') return null
         return callback.call(this)
     }
 
