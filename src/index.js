@@ -1,13 +1,12 @@
 'use strict';
 const fs = require('fs')
-const Tools = require('./tools/index.js')
 
 // Create config.js
 try {
-    const existsConfig =  fs.existsSync(Tools.parsePath('config/config.js'))
+    const existsConfig =  fs.existsSync('config/config.js')
 
     if (!existsConfig) {
-        fs.copyFileSync(Tools.parsePath('config/config-example.js'), Tools.parsePath('config/config.js'))
+        fs.copyFileSync('config/config-example.js', 'config/config.js')
         console.log('Config.js created successfully!')
     } else {
         console.log('Config.js already exists.')
@@ -21,7 +20,7 @@ const Client = require('./client.js')
 const Plugins = require('./plugins.js')
 
 // Gobals
-global.Tools = Tools
+global.Tools = require('./tools.js')
 
 global.Config = Config
 
