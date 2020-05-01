@@ -1,3 +1,4 @@
+'use strict';
 const fs = require('fs')
 const Tools = require('./tools/index.js')
 

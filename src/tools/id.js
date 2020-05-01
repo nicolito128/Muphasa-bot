@@ -1,3 +1,5 @@
+'use strict';
+
 class ID extends String {
     constructor(str = '') {
         if (typeof str !== 'string') str = ''

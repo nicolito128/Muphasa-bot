@@ -1,3 +1,4 @@
+'use strict';
 const { MessageEmbed } = require('discord.js')
 
 class Embed extends MessageEmbed {

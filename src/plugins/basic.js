@@ -1,3 +1,4 @@
+'use strict';
 const github = 'https://github.com/nicolito128/Muphasa-bot'
 
 const getHexValue = n => {

@@ -1,4 +1,4 @@
-// Discord
+'use strict';
 const DiscordClient = require('discord.js').Client
 const Config = require('./../config/config.js');
 const Plugins = require('./plugins.js')
