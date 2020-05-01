@@ -63,11 +63,7 @@ class Database {
             this.data[key] = value
         }
 
-        if (callback && type(callback) === 'function') {
-            let val = this.data[key]
-            callback.call(this, key, val)
-        }
-
+        this.call(callback)
         this.write()
         return this
     }
@@ -97,11 +93,7 @@ class Database {
                 return null
         }
 
-        if (callback && type(callback) === 'function') {
-            let val = this.data[key]
-            callback.call(this, key, val)
-        }
-
+        this.call(callback)
         this.write()
         return this
     }
