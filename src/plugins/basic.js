@@ -1,4 +1,5 @@
 'use strict';
+const Embed = Tools('embed')
 const github = 'https://github.com/nicolito128/Muphasa-bot'
 
 const getHexValue = n => {
@@ -20,7 +21,7 @@ const rgbToHex = (r, g, b) => {
 
 const hexToRgb = hex =>
     hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+             , (m, r, g, b) => '#' + r + r + g + g + b + b)
     .match(/.{2}/g)
     .map(x => parseInt(x, 16))
 
@@ -34,7 +35,7 @@ module.exports.commands = {
         if (!helps[target]) return this.channel.send('No hay ayuda disponible sobre este comando o no existe.')
 
         this.channel.send(
-            Tools.Embed.notify(
+            Embed.notify(
                 '',
                 `\`${Config.prefix}${target}${(helps[target].usage) ? ' < ' + helps[target].usage + ' > ' : ''}\` ${helps[target].info}`
             )
@@ -47,7 +48,7 @@ module.exports.commands = {
 
     github({message, user, args, cmd}) {
         this.channel.send(
-            Tools.Embed.notify(
+            Embed.notify(
                 'Github',
                 `¡Hola, ${user}! Soy **${Config.name}**. Todavía me encuentro en fase de pruebas, ¡Pero no dudes en contar conmigo como tu BOT de confianza!`,
                 [68, 197, 76] // rgb
@@ -74,7 +75,7 @@ module.exports.commands = {
         }
 
         this.channel.send(
-            Tools.Embed.notify(
+            Embed.notify(
                 `${targetUser.username}#${targetUser.discriminator}'s avatar`,
                 [`[Buscar en Google](https://www.google.com/searchbyimage?image_url=${avatar})`]
                 )
@@ -83,7 +84,7 @@ module.exports.commands = {
     },
 
     eval({message, user, args, cmd}) {
-        if (this.author.id !== Config.ownerId) return this.channel.send( Tools.Embed.denied() )
+        if (this.author.id !== Config.ownerId) return this.channel.send( Embed.denied() )
 
         const code = args.join(' ')
         if (!code) return this.channel.send('Ingresa código que poder evaluar.')
@@ -101,7 +102,7 @@ module.exports.commands = {
         const len = args.length
         const randomArgument = args[Math.round(Math.random() * (len - 0) + 0)]
         this.channel.send(
-            Tools.Embed.notify('Random pick', `\`${randomArgument}\``)
+            Embed.notify('Random pick', `\`${randomArgument}\``)
         )
     },
 
@@ -113,7 +114,7 @@ module.exports.commands = {
 
         const randomNumber = Math.round(Math.random() * (num - 0) + 0)
         this.channel.send(
-            Tools.Embed.notify('Random num', `\`${randomNumber}\``)
+            Embed.notify('Random num', `\`${randomNumber}\``)
         )
     },
 
@@ -132,7 +133,7 @@ module.exports.commands = {
         rgb = hexToRgb(hex)
 
         this.channel.send(
-            Tools.Embed.notify(
+            Embed.notify(
                 '',
                 [`\`HEX: #${hex}\``, `\`RGB: ${rgb.join(' ')}\``],
                 'transparent').setImage(image)
@@ -143,7 +144,7 @@ module.exports.commands = {
 module.exports.help = {
     github: {info: 'Muestra el enlace al código fuente del BOT y datos sobre el desarrollo.'},
     eval: {usage: 'code', info: 'Evalua código JavaScript y luego muestra el resultado.'},
-    avatar: {usage: 'mention[optional]',info: 'Muestra en grande tu avatar o el de otro usuario que menciones.'},
+    avatar: {usage: 'mention[optional]', info: 'Muestra en grande tu avatar o el de otro usuario que menciones.'},
     say: {usage: 'message', info: 'Obliga al BOT a enviar un mensaje en el canal actual.'},
     pick: {usage: 'element 1, element 2, element 3...', info: 'Selecciona un elemento aleatorio entre los proporcionados.'},
     rand: {usage: 'number', info: 'Obten un número aleatorio entre 0 y el valor proporcionado.'},

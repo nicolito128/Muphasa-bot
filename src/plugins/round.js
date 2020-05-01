@@ -1,4 +1,5 @@
 'use strict';
+const Embed = Tools('embed')
 
 const shuffle = (array) => {
     let currentIndex = array.length, temporaryValue, randomIndex;
@@ -55,7 +56,6 @@ module.exports.commands = {
     round({message, user, args, cmd}) {
         const players = args.join(' ').split(',')
         const groups = generateGroups(players)
-        console.log(groups)
 
         let free = []
         let versus = []
@@ -68,7 +68,7 @@ module.exports.commands = {
         })
 
         this.channel.send(
-            Tools.Embed.notify('Encuentros', free.concat(versus))
+            Embed.notify('Encuentros', free.concat(versus))
         )
     }
 }
