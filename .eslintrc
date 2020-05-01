@@ -1,0 +1,25 @@
+{
+	"root": true,
+	"parserOptions": {
+		"ecmaVersion": 11,
+		"sourceType": "script",
+		"ecmaFeatures": {
+			"globalReturn": true
+		}
+	},
+	"env": {
+		"es6": true,
+		"node": true
+	},
+	"globals": {
+        "Config": false,
+        "Client": false,
+        "Plugins": false,
+		"Tools": false
+	},
+	"rules": {
+		"strict": [2, "global"],
+		"no-unused-vars": [1, {"args": "none"}],
+		"comma-spacing": [2, {"before": false, "after": true}]
+	}
+}
