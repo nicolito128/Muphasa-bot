@@ -32,21 +32,17 @@ class Plugins {
     }
 
     loadPlugin(plugin) {
-        if (!plugin) return null
-
-        Object.assign(this.commands, plugin.commands)
+        if (plugin.commands) Object.assign(this.commands, plugin.commands)
         if (plugin.help) Object.assign(this.help, plugin.help)
     }
 
     filterPlugin(plugin) {
-        if (!plugin.commands || plugin.commands === {}) return null
+        if (plugin.help && plugin.commands) {
+            const commandsKeys = Object.keys(plugin.commands)
+            commandsKeys.forEach(cmd => {
+                if (typeof plugin.commands[cmd] !== 'function') delete plugin.commands[cmd]
+            })
 
-        const commandsKeys = Object.keys(plugin.commands)
-        commandsKeys.forEach(cmd => {
-            if (typeof plugin.commands[cmd] !== 'function') delete plugin.commands[cmd]
-        })
-
-        if (plugin.help) {
             const helpKeys = Object.keys(plugin.help)
             helpKeys.forEach(cmd => {
                 // Check if the help is a string or an array
