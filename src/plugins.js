@@ -37,12 +37,14 @@ class Plugins {
     }
 
     filterPlugin(plugin) {
-        if (plugin.help && plugin.commands) {
-            const commandsKeys = Object.keys(plugin.commands)
-            commandsKeys.forEach(cmd => {
+        if (plugin.commands) {
+            const commandKeys = Object.keys(plugin.commands)
+            commandKeys.forEach(cmd => {
                 if (typeof plugin.commands[cmd] !== 'function') delete plugin.commands[cmd]
             })
+        }
 
+        if (plugin.help) {
             const helpKeys = Object.keys(plugin.help)
             helpKeys.forEach(cmd => {
                 // Check if the help is a string or an array
