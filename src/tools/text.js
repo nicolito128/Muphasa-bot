@@ -1,20 +1,28 @@
 'use strict';
 
-function toId(str) {
-    if (!str) return null
-    if (typeof str !== 'string') return null
-    return str.toLowerCase().replace(/[^a-z0-9]+/g, '')
-}
+const Text = (function(str) {
+    let text = (typeof str === 'string') ? str : "";
 
-function isId(str) {
-    if (typeof str !== 'string') return false
-    if (str !== toId(str)) return false
-    return true
-}
+    function getId(str = text) {
+        return str.toLowerCase().replace(/[^a-z0-9]+/g, '')
+    }
+    
+    function verifyId(str = text) {
+        if (str === getId(str)) return true
+        return false
+    }
+    
+    function doReverse(str = text) {
+        return text.split('').reverse().join('')
+    }
 
-function reverse(str) {
-    if (typeof str !== 'string') return null
-    return str.split('').reverse().join('')
-}
+    const publicAPI = {
+        toId: getId,
+        isId: verifyId,
+        reverse: doReverse
+    }
 
-module.exports = {toId, isId, reverse}
+    return publicAPI
+})
+
+module.exports = Text
