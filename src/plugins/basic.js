@@ -84,7 +84,7 @@ module.exports.commands = {
     },
 
     eval({message, user, args, cmd}) {
-        if (this.author.id !== Config.ownerId) return this.channel.send( Embed.denied() )
+        if (!Config.owners.includes(this.author.id)) return this.channel.send( Embed.denied() )
 
         const code = args.join(' ')
         if (!code) return this.channel.send('Ingresa código que poder evaluar.')
