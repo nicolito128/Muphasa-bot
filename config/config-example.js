@@ -12,7 +12,7 @@ exports.token = ""
 // Prefix is ​​the character that the bot uses to identify commands
 exports.prefix = ""
 
-// Bot owner
+// List of owners id
 exports.owners = []
 
 // Bot name
