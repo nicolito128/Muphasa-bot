@@ -13,7 +13,7 @@ exports.token = ""
 exports.prefix = ""
 
 // Bot owner
-exports.ownerId = ""
+exports.owners = []
 
 // Bot name
 exports.name = 'Muphasa'
