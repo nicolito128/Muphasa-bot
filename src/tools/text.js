@@ -1,25 +1,29 @@
 'use strict';
 
+/**
+ * 
+ * @param {string} str 
+ */
 const Text = (function(str) {
     let text = (typeof str === 'string') ? str : "";
 
-    function getId(str = text) {
+    function toId(str = text) {
         return str.toLowerCase().replace(/[^a-z0-9]+/g, '')
     }
     
-    function verifyId(str = text) {
-        if (str === getId(str)) return true
+    function isId(str = text) {
+        if (str === toId(str)) return true
         return false
     }
     
-    function doReverse(str = text) {
+    function reverse(str = text) {
         return text.split('').reverse().join('')
     }
 
     const publicAPI = {
-        toId: getId,
-        isId: verifyId,
-        reverse: doReverse
+        toId,
+        isId,
+        reverse
     }
 
     return publicAPI
