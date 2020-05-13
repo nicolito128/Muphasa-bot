@@ -16,7 +16,7 @@ class Client extends DiscordClient {
     }
 
     logs() {
-        this.on('errors', e => new Error(`${e} \n`))
+        this.on('error', e => new Error(`${e} \n`))
         this.on('warn', e => new Error(`WARN STATUS: ${e}\n`));
         this.on('debug', e => console.log(`DEBUG STATUS: ${e}\n`));
     }
