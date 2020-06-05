@@ -1,5 +1,8 @@
-Muphasa - Discord Bot
+[Abandoned] Muphasa - Discord Bot
 ========================================================================
+[New project: muphasa (typescript!)][3]
+
+[3]: https://github.com/nicolito128/muphasa
 
 Introducción
 ------------------------------------------------------------------------
